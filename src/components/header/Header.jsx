@@ -8,20 +8,37 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format} from 'date-fns';
 
-function Header() {
+function Header({type}) {
 
+    // set date
     const [openDate, setOpenDate] = useState(false);
     const [date, setDate] = useState([
         {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: 'selection'
+            startDate: new Date(),
+            endDate: new Date(),
+            key: 'selection'
         }
-      ]);
+    ]);
+
+    // set options
+    const [openOptions, setOpenOptions] = useState(false);
+    const [options, setOptions] = useState({
+        adult: 1,
+        children: 1,
+        room: 1
+    })
+    const handleOption = (name, operation) => {
+        setOptions((prev) => {
+            return {
+                ...prev,
+                [name]: operation === "i" ? options[name] + 1 : options[name] - 1
+            }
+        })
+    }
 
     return (
         <div className="header">
-            <div className="headerContainer">
+            <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
                 <div className="headerList">
                     <div className="headerListItem active">
                         <FontAwesomeIcon icon={faBed} />
@@ -44,7 +61,7 @@ function Header() {
                         <span>Airport taxis</span>
                     </div>
                 </div>
-                <h1 className="headerTitle">Zaloguj się i oszczędzaj</h1>
+                {type !== "list" && <><h1 className="headerTitle">Zaloguj się i oszczędzaj</h1>
                 <p className="headerDesc">Oszczędzaj min. 10% w obiektach biorących udział w programie. Szukaj etykiety Genius.</p>
                 <button className="headerBtn">Sign in / Register</button>
                 <div className="headerSearch">
@@ -65,12 +82,38 @@ function Header() {
                     </div>
                     <div className="headerSearchItem">
                         <FontAwesomeIcon icon={faPerson} className='headerIcon' />
-                        <span className='headerSearchText'>2 adults 2 children 1 room</span>
+                        <span className='headerSearchText' onClick={()=>setOpenOptions(!openOptions)}>{`${options.adult} adult - ${options.children} children - ${options.room} room`}</span>
+                        {openOptions && <div className="options">
+                            <div className="optionsItem">
+                                <span className="optionText">Adult</span>
+                                <div className="optionCounter">
+                                    <button className="optionCounterButton" onClick={()=> handleOption("adult","d")} disabled={options.adult <= 1}>-</button>
+                                    <span className="optionCounterNumber">{options.adult}</span>
+                                    <button className="optionCounterButton" onClick={()=> handleOption("adult","i")}>+</button>
+                                </div>
+                            </div>
+                            <div className="optionsItem">
+                                <span className="optionText">Children</span>
+                                <div className="optionCounter">
+                                    <button className="optionCounterButton" onClick={()=> handleOption("children","d")} disabled={options.children <= 1}>-</button>
+                                    <span className="optionCounterNumber">{options.children}</span>
+                                    <button className="optionCounterButton" onClick={()=> handleOption("children","i")}>+</button>
+                                </div>
+                            </div>
+                            <div className="optionsItem">
+                                <span className="optionText">Room</span>
+                                <div className="optionCounter">
+                                    <button className="optionCounterButton" onClick={()=> handleOption("room","d")} disabled={options.room <= 1}>-</button>
+                                    <span className="optionCounterNumber">{options.room}</span>
+                                    <button className="optionCounterButton" onClick={()=> handleOption("room","i")}>+</button>
+                                </div>
+                            </div>
+                        </div>}
                     </div>
                     <div className="headerSearchItem">
                         <button className="headerBtn">Search</button>
                     </div>
-                </div>
+                </div></>}
             </div>
         </div>
     )
