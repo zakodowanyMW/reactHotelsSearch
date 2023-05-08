@@ -1,0 +1,36 @@
+.pList {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pListItem {
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.pListItem {
+    flex: 1;
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.pListTitles>h1 {
+    font-size: 18px;
+    color: black;
+}
+
+.pListTitles>h2 {
+    font-size: 14px;
+    color: black;
+    font-weight: 300;
+}
