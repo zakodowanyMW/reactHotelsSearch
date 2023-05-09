@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import './header.css';
 import { DateRange } from 'react-date-range';
+import {format} from 'date-fns';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import {format} from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 function Header({type}) {
@@ -87,6 +87,7 @@ function Header({type}) {
                             moveRangeOnFirstSelection={false}
                             ranges={date}
                             className='date'
+                            minDate={new Date()}
                         />}
                     </div>
                     <div className="headerSearchItem">
